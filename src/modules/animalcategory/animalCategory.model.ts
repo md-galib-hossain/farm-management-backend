@@ -8,7 +8,8 @@ const animalCategorySchema = new Schema({
                 required : true
             },
             animalType : {
-                type : String
+                type : String,
+                unique : true
             }
       
 })

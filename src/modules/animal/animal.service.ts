@@ -4,6 +4,7 @@ import { TAnimal } from "./animal.interface";
 import { AnimalModel } from "./animal.model";
 
 const createAnimalToDb = async (animal: TAnimal) => {
+
   const result = await AnimalModel.create(animal);
   return result;
 };
@@ -26,11 +27,19 @@ const getAllAnimalsFromDb = async (query: Record<string, unknown>) => {
 };
 // get single animal from db
 const getSingleAnimalFromDB = async (id: string) => {
+ 
     const result = await AnimalModel.findById(id).populate(
       'animalCategory',
     );
     return result;
   };
 
+  //delete single animal
+  const deleteSingleAnimalFromDB = async (id: string) => {
+    const result = await AnimalModel.findByIdAndUpdate(id,{isDeleted:true},{new : true})
+return result
+    
+}
 
-export const AnimalService = { createAnimalToDb,getAllAnimalsFromDb,getSingleAnimalFromDB };
+
+export const AnimalService = { createAnimalToDb,getAllAnimalsFromDb,getSingleAnimalFromDB,deleteSingleAnimalFromDB };

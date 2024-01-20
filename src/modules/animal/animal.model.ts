@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import { boolean } from "zod";
+import { TAnimal, TAnimalModel } from "./animal.interface";
 
 const animalSchema = new Schema({
     
@@ -74,9 +76,25 @@ const animalSchema = new Schema({
         type: String,
         required: false
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     
 },
 {
     timestamps: true
 })
-export const AnimalModel = model ('animal',animalSchema)
+
+// filter out deleted documents
+animalSchema.pre('find', function (next){
+    this.find({isDeleted : {$ne : true}});
+    next()
+})
+//checking if user is already exist!
+animalSchema.statics.isAnimalExists = async function (id: string) {
+    const existingAnimal = await AnimalModel.findById(id);
+    return existingAnimal;
+  };
+
+export const AnimalModel = model<TAnimal, TAnimalModel> ('animal',animalSchema)

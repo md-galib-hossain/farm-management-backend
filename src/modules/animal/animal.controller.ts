@@ -30,6 +30,7 @@ const getAllAnimals = catchAsync(async (req, res) => {
 // get single animal
 const getSingleAnimal = catchAsync(async (req, res) => {
     const { id } = req.params;
+    
     const result = await AnimalService.getSingleAnimalFromDB(id);
   
     sendResponse(res, {
@@ -39,5 +40,15 @@ const getSingleAnimal = catchAsync(async (req, res) => {
       data: result,
     });
   });
+  const deleteSingleAnimal =catchAsync(async(req,res)=>{
+const {id} = req.params
+const result = await AnimalService.deleteSingleAnimalFromDB(id)
+sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Animal is deleted succesfully',
+    data: result,
+  });
+  })
 
-export const AnimalControllers = { getAllAnimals, createAnimal,getSingleAnimal };
+export const AnimalControllers = { getAllAnimals, createAnimal,getSingleAnimal,deleteSingleAnimal };

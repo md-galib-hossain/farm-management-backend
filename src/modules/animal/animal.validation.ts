@@ -24,7 +24,7 @@ animalAiState: z.string().optional(),
 animalIsPregnant: z.boolean().optional(),
 animalSemenVariant: z.string().optional(),
 animalDeliveryDate: z.string().optional(),
-
+isDeleted: z.boolean().optional()
     })
 })
 export const AnimalValidation = {createAnimalValidationSchema}
