@@ -1,0 +1,26 @@
+[{
+    "animalId" : "",
+   "animalCategory" : "65aaa7619123d5ace6701202" ,
+   "animalName" : "mahadigoru",
+   "animalImg" : "domain.com",
+   "animalSimpleId" : "C1",
+   "animalWeight" : "200kg",
+   "animalBirthdate" : "24-12-2022",
+   "animalParents" : {
+    "sire" : "animalid23fsdf2w34254sf35",
+    "dam" : "animalid34hjkhdfsg345gjwshe"
+   },
+   "animalVariant" : "Australian",
+   "animalLactation" : [
+    {
+        "count" : "1",
+      "date" : "1-1-2024",
+      "child" : "animalid23482309hasdhdfdkhf"
+    }
+   ],
+   "animalAiState":"3-5-2023",
+   "animalIsPregnant" : true,
+   "animalSemenVariant": "australian",
+   "animalDeliveryDate": "13-2-2024"
+
+}]

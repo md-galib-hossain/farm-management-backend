@@ -6,7 +6,7 @@ import app from './app'
 
     async function main() {
         try{
-        await mongoose.connect(config.DATABASE_URL);
+        await mongoose.connect(config.dbUrl);
         console.log("connected db")
         app.listen(config.port, () => {
             console.log(`Example app listening at http://localhost:${config.port}`)
