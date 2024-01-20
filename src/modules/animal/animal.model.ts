@@ -74,5 +74,9 @@ const animalSchema = new Schema({
         type: String,
         required: false
     },
+    
+},
+{
+    timestamps: true
 })
 export const AnimalModel = model ('animal',animalSchema)
