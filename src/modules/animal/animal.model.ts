@@ -2,99 +2,82 @@ import { Schema, model } from "mongoose";
 import { boolean } from "zod";
 import { TAnimal, TAnimalModel } from "./animal.interface";
 
-const animalSchema = new Schema({
-    
+const animalSchema = new Schema(
+  {
     animalCategory: {
-        type : Schema.Types.ObjectId,
-        ref : 'animalcategory',
-        required: true
+      type: Schema.Types.ObjectId,
+      ref: "animalcategory",
+      required: true,
     },
     animalName: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     animalImg: {
-        type: String,
-        required: false
+      type: String,
     },
     animalSimpleId: {
-        type: String,
-        required : true,
-        unique : true
+      type: String,
+      required: true,
     },
     animalWeight: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     animalBirthdate: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     animalParents: {
-        sire: {
-            type: String,
-            required: false
-        },
-        dam: {
-            type: String,
-            required: false
-        }
+      sire: {
+        type: Schema.Types.ObjectId,
+        ref: "animal",
+      },
+      dam: {
+        type: Schema.Types.ObjectId,
+        ref: "animal",
+      },
     },
     animalVariant: {
-        type: String,
-        required: false
+      type: String,
     },
     animalLactation: [
-        {
-            count: {
-                type: Number,
-                required: false
-            },
-            date: {
-                type: String,
-                required: false
-            },
-            child: {
-                type: String,
-                required: false
-            }
-        }
+      {
+        type: Schema.Types.ObjectId,
+        ref: "lactation",
+        _id: false,
+      },
     ],
-    animalAiState: {
-        type: String,
-        required: false
-    },
-    animalIsPregnant: {
-        type: Boolean,
-        required: false
-    },
-    animalSemenVariant: {
-        type: String,
-        required: false
-    },
-    animalDeliveryDate: {
-        type: String,
-        required: false
-    },
+    animalAiState: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "pregnancy",
+        _id: false,
+      },
+    ],
     isDeleted: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
-    
-},
-{
-    timestamps: true
-})
+  },
+  {
+    timestamps: true,
+  }
+);
 
 // filter out deleted documents
-animalSchema.pre('find', function (next){
-    this.find({isDeleted : {$ne : true}});
-    next()
-})
-//checking if user is already exist!
+animalSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+//checking if animal is already exist!
+animalSchema.statics.isAnimalExistsByCustomId = async function (id: string) {
+  const existingAnimal = await AnimalModel.findOne({ animalSimpleId: id });
+  return existingAnimal;
+};
 animalSchema.statics.isAnimalExists = async function (id: string) {
-    const existingAnimal = await AnimalModel.findById(id);
-    return existingAnimal;
-  };
+  const existingAnimal = await AnimalModel.findById({ _id: id });
+  return existingAnimal;
+};
 
-export const AnimalModel = model<TAnimal, TAnimalModel> ('animal',animalSchema)
+export const AnimalModel = model<TAnimal, TAnimalModel>("animal", animalSchema);

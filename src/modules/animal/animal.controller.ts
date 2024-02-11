@@ -3,19 +3,19 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { AnimalService } from "./animal.service";
 
-
 // creating animals
 const createAnimal = catchAsync(async (req, res) => {
-    const animal = req.body;
-    const result = await AnimalService.createAnimalToDb(animal);
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Animal Created successfully",
-      data: result,
-    });
+  const animal = req.body;
+  console.log(animal)
+  const result = await AnimalService.createAnimalToDb(animal);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Animal Created successfully",
+    data: result,
   });
-  
+});
+
 //getting animals with query
 const getAllAnimals = catchAsync(async (req, res) => {
   const result = await AnimalService.getAllAnimalsFromDb(req.query);
@@ -29,26 +29,44 @@ const getAllAnimals = catchAsync(async (req, res) => {
 });
 // get single animal
 const getSingleAnimal = catchAsync(async (req, res) => {
-    const { id } = req.params;
-    
-    const result = await AnimalService.getSingleAnimalFromDB(id);
-  
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Animal is retrieved succesfully',
-      data: result,
-    });
-  });
-  const deleteSingleAnimal =catchAsync(async(req,res)=>{
-const {id} = req.params
-const result = await AnimalService.deleteSingleAnimalFromDB(id)
-sendResponse(res, {
+  const { id } = req.params;
+
+  const result = await AnimalService.getSingleAnimalFromDB(id);
+
+  sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Animal is deleted succesfully',
+    message: "Animal is retrieved succesfully",
     data: result,
   });
-  })
+});
+const deleteSingleAnimal = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await AnimalService.deleteSingleAnimalFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Animal is deleted succesfully",
+    data: result,
+  });
+});
 
-export const AnimalControllers = { getAllAnimals, createAnimal,getSingleAnimal,deleteSingleAnimal };
+const updateSingleAnimal = catchAsync(async (req, res) => {
+  const animalId  = req.params.id;
+  const animal = req.body;
+  const result = await AnimalService.updateAnimalIntoDB(animalId, animal);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Animal updated successfully",
+    data: result,
+  });
+});
+
+export const AnimalControllers = {
+  getAllAnimals,
+  createAnimal,
+  getSingleAnimal,
+  deleteSingleAnimal,
+  updateSingleAnimal,
+};
