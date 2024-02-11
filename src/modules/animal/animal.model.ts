@@ -2,6 +2,23 @@ import { Schema, model } from "mongoose";
 import { boolean } from "zod";
 import { TAnimal, TAnimalModel } from "./animal.interface";
 
+const parentsSchema = new Schema(
+  {
+    sire: {
+      type: Schema.Types.ObjectId,
+      ref: 'animal',
+    },
+    dam: {
+      type: Schema.Types.ObjectId,
+      ref: 'animal',
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+
 const animalSchema = new Schema(
   {
     animalCategory: {
@@ -28,16 +45,7 @@ const animalSchema = new Schema(
       type: String,
       required: true,
     },
-    animalParents: {
-      sire: {
-        type: Schema.Types.ObjectId,
-        ref: "animal",
-      },
-      dam: {
-        type: Schema.Types.ObjectId,
-        ref: "animal",
-      },
-    },
+    animalParents: parentsSchema,
     animalVariant: {
       type: String,
     },

@@ -6,8 +6,11 @@ import { TAnimal } from "./animal.interface";
 import { AnimalModel } from "./animal.model";
 
 const createAnimalToDb = async (animal: TAnimal) => {
-  const animalExist = await AnimalModel.isAnimalExistsByCustomId(animal.animalSimpleId)
+  const animalByCustomIdExist = await AnimalModel.isAnimalExistsByCustomId(animal.animalSimpleId)
 
+  if(animalByCustomIdExist){
+throw new AppError(httpStatus.CONFLICT,"This Custom id Animal already exists")
+  }
     const result = await AnimalModel.create(animal);
     return result;
   
@@ -15,7 +18,7 @@ const createAnimalToDb = async (animal: TAnimal) => {
 };
 const getAllAnimalsFromDb = async (query: Record<string, unknown>) => {
   const animalQuery = new QueryBuilder(
-    AnimalModel.find().populate(["animalCategory","animalLactation"]),
+    AnimalModel.find().populate(["animalCategory","animalLactation","animalParents.sire","animalParents.dam"]),
     query
   )
     .search(AnimalSearchableFields)
@@ -32,7 +35,7 @@ const getAllAnimalsFromDb = async (query: Record<string, unknown>) => {
 };
 // get single animal from db
 const getSingleAnimalFromDB = async (id: string) => {
-  const result = await AnimalModel.findById(id).populate("animalCategory");
+  const result = await AnimalModel.findById(id).populate(["animalCategory","animalLactation","animalParents.sire","animalParents.dam"])
   return result;
 };
 

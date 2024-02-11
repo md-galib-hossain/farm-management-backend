@@ -6,7 +6,6 @@ import { AnimalService } from "./animal.service";
 // creating animals
 const createAnimal = catchAsync(async (req, res) => {
   const animal = req.body;
-  console.log(animal)
   const result = await AnimalService.createAnimalToDb(animal);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -24,7 +23,8 @@ const getAllAnimals = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "Animals retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 // get single animal
