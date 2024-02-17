@@ -1,29 +1,39 @@
 import { Schema, model } from "mongoose";
+import { pregnancyStatus } from "./pregnancyperiod.constant";
+import { TPregnancyPeriod } from "./pregnancyperiod.interface";
 
-const lactationSchema = new Schema({
-    animalSimpleId : {
-        type: String,
-        required: true
+const pregnancySchema = new Schema<TPregnancyPeriod>(
+  {
+    animalId: {
+      type: Schema.Types.ObjectId,
+      ref: "animal",
+      required: true,
     },
-    lactationNo : {
-        type: String,
-        required: true
+    animalSemenVariant: {
+      type: String,
+      required: true,
     },
-    animalId : {
-        type : Schema.Types.ObjectId,
-        ref : 'animal',
-       
+    semenGivenDate: {
+      type: String,
+      required: true,
     },
-    date : {
-        type: String,
-        required : true
+    predictedDeliveryDate: {
+      type: String,
+      required: true,
     },
-    calf : {
-        type: String,
-        required : true
-    }
-},{
-    timestamps: true
-})
+    pregnancyStatus: {
+      type: String,
+      required: true,
+      enum: pregnancyStatus,
+    },
+    calf: {
+      type: Schema.Types.ObjectId,
+      ref: "animal",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const LactationModel = model('pregnancy',lactationSchema)
+export const PregnancyModel = model("pregnancy", pregnancySchema);

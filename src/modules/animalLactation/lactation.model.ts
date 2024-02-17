@@ -1,30 +1,35 @@
 import { Schema, model } from "mongoose";
+import { TLactation } from "./lactation.interface";
 
-const lactationSchema = new Schema({
-    animalSimpleId : {
-        type: String,
-        required: true
+const lactationSchema = new Schema<TLactation>(
+  {
+    lactationNo: {
+      type: Number,
+      required: true,
     },
-    lactationNo : {
-        type: Number,
-        required: true
+    animalId: {
+      type: Schema.Types.ObjectId,
+      ref: "animal",
     },
-    animalId : {
-        type : Schema.Types.ObjectId,
-        ref : 'animal',
-       
+    startedDate: {
+      type: String,
+      required: true,
     },
-    date : {
-        type: Date,
-        required : true
+    endedDate: {
+      type: String,
     },
     totalMilk: {
-        type : Number,
-        required : true
-    }
+      type: Number,
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-},{
-    timestamps: true
-})
-
-export const LactationModel = model('lactation',lactationSchema)
+export const LactationModel = model("lactation", lactationSchema);
