@@ -7,7 +7,7 @@ import { UserStatus } from "./user.constant";
 const UserSchema = new Schema<TUser,TUserModel>(
   {
 
-    username: {
+    userName: {
         type: String,
         required: true,
         

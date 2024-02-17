@@ -4,11 +4,12 @@ import { Model } from "mongoose";
 
 export type TUser = {
     _id? : string,
-    username : string;
+    userName : string;
     email: string;
     password : string;
     passwordChangedAt? : Date;
-    role : 'user' | 'manager';
+    role : 'user' | 'admin' | 'superAdmin';
+    status: 'in-progress' | 'blocked';
     isDeleted? : boolean
 }
 
